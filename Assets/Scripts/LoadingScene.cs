@@ -6,13 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScene : MonoBehaviour
 {
-    public int sceneNumber = 2;
     public Slider loadingBar;
     public Text loadingText;
 
     void Start()
     {
-        StartCoroutine(NextScene(sceneNumber));
+        StartCoroutine(NextScene(1));
     }
 
     IEnumerator NextScene(int num)

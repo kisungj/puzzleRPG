@@ -50,4 +50,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+
+    //마우스 버튼위에 올라가면
+    void MouseOver(bool isOver)
+    {
+
+    }
 }

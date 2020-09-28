@@ -41,9 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Canvas
-    uniqueID: 911077649
-    locked: 0
-  - name: Red
-    uniqueID: 1199999055
+  - name: effect
+    uniqueID: 1728920351
     locked: 0

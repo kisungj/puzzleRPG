@@ -12,7 +12,8 @@ public class EnemyHp : MonoBehaviour
 
     [SerializeField]
     private Text hpText;
-    public Slider hpSlider; 
+    public Slider hpSlider;
+    public Image floorImage;
 
     void Start()
     {
@@ -29,5 +30,6 @@ public class EnemyHp : MonoBehaviour
         //오브젝트에 따른 위치 이동 (월드좌표를 화면좌표로 변환시켜준다)
         fhpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
         fhpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
+        floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
     }
 }

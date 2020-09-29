@@ -6,18 +6,14 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private GameObject skill1;
-    public GameObject skill2;
-    public GameObject skill3;
-    public GameObject skill4;
-    public GameObject skill5;
+    private GameObject[] skill;
 
-    public Transform position;
+    public GameObject position;
 
     //플레이어 공격
     private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(0.3f);
         PlayerSkill();
     }
 
@@ -30,24 +26,23 @@ public class Player : MonoBehaviour
         //일치하는 플레이어의 스킬을 지정하고 생성.
         if(btnName.name == "Player1")
         {
-            Instantiate(skill1, transform.position, transform.rotation);
+            Instantiate(skill[0], transform.position + new Vector3(-3.1f, -3.5f, 0), Quaternion.identity);
         }
         else if(btnName.name == "Player2")
         {
-            Instantiate(skill2, transform.position/* + new Vector3(0, 0, 0)*/, transform.rotation);
+            Instantiate(skill[1], transform.position + new Vector3(-1.5f, -3.5f, 0), Quaternion.identity);
         }
         else if(btnName.name == "Player3")
         {
-            Instantiate(skill3, transform.position, transform.rotation);
+            Instantiate(skill[2], transform.position + new Vector3(0, -3.5f, 0), Quaternion.identity);
         }
         else if(btnName.name == "Player4")
         {
-            Instantiate(skill4, transform.position, transform.rotation);
+            Instantiate(skill[3], transform.position + new Vector3(1.5f, -3.5f, 0), Quaternion.identity);
         }
         else
         {
-            Instantiate(skill5, transform.position, transform.rotation);
+            Instantiate(skill[4], transform.position + new Vector3(3.1f, -3.5f, 0), Quaternion.identity);
         }
-
     }
 }

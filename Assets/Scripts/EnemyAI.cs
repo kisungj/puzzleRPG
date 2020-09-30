@@ -8,7 +8,9 @@ public class EnemyAI : MonoBehaviour
     enum EnemyState
     {
         IDLE,
+        SCREAM,
         ATTACK,
+        FULLATTACK,
         HIT,
         DIE
     }
@@ -17,8 +19,11 @@ public class EnemyAI : MonoBehaviour
 
     public float hp = 0;
     private float maxHp = 500.0f;
-    private GameObject fhpBar;
-    private GameObject fhpText;
+    private float guage = 0;
+    public float maxGuage = 100.0f;
+    private GameObject fHpBar;
+    private GameObject fHpText;
+    private GameObject fGuageBar;
 
     //공격 상태 딜레이
     float currentTime = 0;
@@ -28,33 +33,43 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private Text hpText;
     public Slider hpSlider;
+    public Slider guageSlider;
     public Image floorImage;
 
     Animator enemyAni;
     //플레이어는 5명이라 배열로
     private GameObject[] player;
 
+    //Shake 클래스를 저장할 변수
+    private CameraShake shake;
+
     void Start()
     {
-        enemyState = EnemyState.ATTACK;
-
-        hpSlider.value = hp / maxHp;
-        hpText.text = hp + " / " + maxHp;
+        enemyState = EnemyState.IDLE;
 
         //해당 오브젝트 이름 찾아준다.
-        fhpBar = GameObject.Find("UICanvas/EnemyUI/HpBar");
-        fhpText = GameObject.Find("UICanvas/EnemyUI/HpText");
+        fHpBar = GameObject.Find("UICanvas/EnemyUI/HpBar");
+        fHpText = GameObject.Find("UICanvas/EnemyUI/HpText");
+        fGuageBar = GameObject.Find("UICanvas/EnemyUI/GuageBar");
         //태그로 이름찾는건데 objects라 배열임
         player = GameObject.FindGameObjectsWithTag("PLAYER");
 
         enemyAni = gameObject.GetComponent<Animator>();
+
+        //shake 스크립트를 호출
+        shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     void Update()
     {
+        hpSlider.value = hp / maxHp;
+        hpText.text = hp + " / " + maxHp;
+        guageSlider.value = guage / maxGuage;
+
         //오브젝트에 따른 위치 이동 (월드좌표를 화면좌표로 변환시켜준다)
-        fhpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
-        fhpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
+        fHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
+        fHpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
+        fGuageBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.37f, 0));
         floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
 
         switch (enemyState)
@@ -62,11 +77,17 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.IDLE:
                 Idle();
                 break;
+            case EnemyState.SCREAM:
+                Scream();
+                break;
             case EnemyState.ATTACK:
                 Attack();
                 break;
+            case EnemyState.FULLATTACK:
+                //FullAttack();
+                break;
             case EnemyState.HIT:
-                Hit();
+                //Hit();
                 break;
             case EnemyState.DIE:
                 Die();
@@ -77,24 +98,75 @@ public class EnemyAI : MonoBehaviour
     //아이들 상태
     void Idle()
     {
-        //
+        enemyState = EnemyState.SCREAM;
+        enemyAni.SetTrigger("IdleToScream");
+    }
+
+    //포효 상태
+    void Scream()
+    {
+        //enemyState = EnemyState.
+        enemyState = EnemyState.ATTACK;
+        enemyAni.SetTrigger("ScreamToAttack");
     }
 
     //공격 상태
     void Attack()
     {
+        //만약 전체 공격중이면 함수를 실행하지 않음
+        if (enemyState == EnemyState.FULLATTACK)
+        {
+            return;
+        }
+
         currentTime += Time.deltaTime;
-        if(currentTime > attackDelay)
+        if (currentTime > attackDelay)
         {
             Debug.Log("보스 공격");
             currentTime = 0;
             enemyAni.SetTrigger("ScreamToAttack");
-
+            //공격 할때마다 게이지 채우기
+            guage += 20.0f;
             //랜덤값으로 플레이어 찾기
             int RanNum = Random.Range(0, 5);
             player[RanNum].GetComponent<PlayerHit>().hitDamage(Power);
+
+            //쉐이크 효과 호출
+            //StartCoroutine(shake.ShakeCamera());
+            
         }
+
+        //만약 enemy 게이지가 다차게되면 전체 스킬 발동
+        //if (guage >= maxGuage)
+        //{
+        //    enemyState = EnemyState.FULLATTACK;
+        //    //currentTime = attackDelay;
+        //}
     }
+
+    //전체 공격
+    //void FullAttack()
+    //{
+    //    currentTime += Time.deltaTime;
+    //    if (currentTime > attackDelay)
+    //    {
+    //        currentTime = 0;
+    //        enemyAni.SetTrigger("AttackToFullAttack");
+
+    //        for (int i = 0; i < 5; i++)
+    //        {
+    //            player[i].GetComponent<PlayerHit>().hitDamage(50);
+    //        }
+    //        //스킬 사용 후 게이지 초기화
+    //        guage = 0;
+    //    }
+
+    //    if (guage == 0)
+    //    {
+    //        enemyState = EnemyState.ATTACK;
+    //        //currentTime = attackDelay;
+    //    }
+    //}
 
     //enemy 공격받고 있는 상태
     public void HitEnemy(int damage)
@@ -112,21 +184,23 @@ public class EnemyAI : MonoBehaviour
         {
             enemyState = EnemyState.HIT;
 
-            enemyAni.SetTrigger("");
-            Damage();
+            enemyAni.SetTrigger("Hit");
+            Hit();
         }
         //죽은 상태로 넘기기
         else
         {
+            hp = 0;
+
             enemyState = EnemyState.DIE;
 
             enemyAni.SetTrigger("Die");
             Die();
-
         }
     }
 
-    void Damage()
+    //히트 상태
+    void Hit()
     {
         StartCoroutine(DamageProcess());
     }
@@ -136,13 +210,7 @@ public class EnemyAI : MonoBehaviour
         //피격 모션 기다리게 해준다.
         yield return new WaitForSeconds(1.0f);
 
-        enemyState = EnemyState.IDLE;
-    }
-
-    //히트 상태
-    void Hit()
-    {
-
+        enemyState = EnemyState.SCREAM;
     }
 
     //죽음 상태
@@ -150,5 +218,13 @@ public class EnemyAI : MonoBehaviour
     {
         //진행 중일 수 있는 피격 모션 코루틴을 중지시킴
         StopAllCoroutines();
+        StartCoroutine(DieProcess());
+    }
+
+    IEnumerator DieProcess()
+    {
+        yield return new WaitForSeconds(2f);
+
+        Destroy(enemyAni.gameObject);
     }
 }

@@ -28,7 +28,6 @@ public class EnemyAI : MonoBehaviour
     //공격 상태 딜레이
     float currentTime = 0;
     float attackDelay = 3.0f;
-    public int Power = 30;
 
     [SerializeField]
     private Text hpText;
@@ -129,7 +128,9 @@ public class EnemyAI : MonoBehaviour
             guage += 20.0f;
             //랜덤값으로 플레이어 찾기
             int RanNum = Random.Range(0, 5);
-            player[RanNum].GetComponent<PlayerHit>().hitDamage(Power);
+            //에너미 공격력 랜덤
+            int enemyAttack = Random.Range(20, 40);
+            player[RanNum].GetComponent<PlayerHit>().hitDamage(enemyAttack);
 
             //쉐이크 효과 호출
             //StartCoroutine(shake.ShakeCamera());

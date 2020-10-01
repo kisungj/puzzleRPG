@@ -42,6 +42,10 @@ public class EnemyAI : MonoBehaviour
     //Shake 클래스를 저장할 변수
     private CameraShake shake;
 
+    //에너미 히트 데미지 text하고 위치
+    public GameObject hudDamageText;
+    public Transform hudPos;
+
     void Start()
     {
         enemyState = EnemyState.IDLE;
@@ -179,6 +183,11 @@ public class EnemyAI : MonoBehaviour
         }
 
         hp -= damage;
+
+        //에너미 히트 텍스트 보이게하려구..
+        GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
+        hudText.transform.position = hudPos.position; // 표시될 위치
+        hudText.GetComponent<DamageText>().damage = -damage; // 데미지 전달
 
         //HP가 남아있으면
         if (hp > 0)

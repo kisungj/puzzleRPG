@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
 
     public GameObject position;
 
+    PlayerHit playerHit;
+
+    ParticleSystem particle = null;
+
     void Start()
     {
         //태그가 ENEMY인 오브젝트를 찾음
@@ -31,26 +35,43 @@ public class Player : MonoBehaviour
         {
             Instantiate(skill[0], transform.position + new Vector3(-3.1f, -3.5f, 0), Quaternion.identity);
             enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            //스킬 사용 후 게이지 초기화
+            playerHit.guageZero();
         }
         else if (btnName.name == "Player2")
         {
             Instantiate(skill[1], transform.position + new Vector3(-1.5f, -3.5f, 0), Quaternion.identity);
             enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            playerHit.guageZero();
         }
         else if (btnName.name == "Player3")
         {
             Instantiate(skill[2], transform.position + new Vector3(0, -3.5f, 0), Quaternion.identity);
             enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            playerHit.guageZero();
         }
         else if (btnName.name == "Player4")
         {
             Instantiate(skill[3], transform.position + new Vector3(1.5f, -3.5f, 0), Quaternion.identity);
             enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            playerHit.guageZero();
         }
         else
         {
-            Instantiate(skill[4], transform.position + new Vector3(3.1f, -3.5f, 0), Quaternion.identity);
+            Instantiate(skill[4], transform.position + new Vector3(0, 3.5f, 0), Quaternion.identity);
             enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            playerHit.guageZero();
+
+            //파티클이 있고
+            if(particle)
+            {
+                //파티클이 재생중이면 재생을 멈추고 지운다.
+                if(particle.isPlaying == true)
+                {
+                    particle.Stop();
+                    particle.Clear();
+                }
+            }
         }
     }
 

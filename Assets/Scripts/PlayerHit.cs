@@ -16,10 +16,14 @@ public class PlayerHit : MonoBehaviour
     public Slider guageSlider;
     public Button playerBtn;
 
+    //플레이어 피격용 이미지
+    public GameObject hitimg;
     //플레이어 피격용 이펙트
     public GameObject hitEffect;
-    //플레이어 공격 이펙트
-    public GameObject AttEffect;
+    //플레이어 피격용 이펙트 위치
+    public Transform hitEffectPos;
+    //플레이어 공격용 이미지
+    public GameObject AttEimg;
     //플레이어 죽은상태 이미지
     public GameObject DieImage;
 
@@ -39,7 +43,7 @@ public class PlayerHit : MonoBehaviour
         //임시로 만든거 옮기던가 바꾸던가 해야댐
         //버튼 OnClick 이벤트 활성화 비활성화 할수있음 (0은 인덱스 리스너 순서인거같음 맨위에꺼, 맨뒤에껄로 O1ff or On 시킬수 있음)
         //playerBtn.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
-        if(guage >= 100)
+        if(guage >= 100 && hp > 0)
         {
             time += Time.deltaTime;
             guage = 100;
@@ -48,13 +52,13 @@ public class PlayerHit : MonoBehaviour
             //깜빡이는 효과주기
             if (time < 0.15f)
             {
-                AttEffect.SetActive(true);
+                AttEimg.SetActive(true);
             }
             else 
             {
                 if(time > 0.3f)
                 {
-                    AttEffect.SetActive(false);
+                    AttEimg.SetActive(false);
                     time = 0;
                 }
             }
@@ -73,7 +77,15 @@ public class PlayerHit : MonoBehaviour
         //플레이어가 HP가 남아있는 상태에서 맞으면
         if(hp > 0)
         {
-            StartCoroutine(PlayerHitEffect());
+            StartCoroutine(PlayerHitImg());
+
+            //플레이어 히트 텍스트 보이게하려구..
+            GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
+            hudText.transform.position = hudPos.position; // 표시될 위치
+            hudText.GetComponent<DamageText>().damage = -power; // 데미지 전달
+
+            //플레이어 히트 이펙트 생성 후 1초뒤 삭제
+            StartCoroutine(HitEffect());
         }
         //플레이어 체력이 다 떨어지면
         else
@@ -81,28 +93,39 @@ public class PlayerHit : MonoBehaviour
             hp = 0;
             StartCoroutine(PlayerDie());
         }
-
-        //플레이어 히트 텍스트 보이게하려구..
-        GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
-        hudText.transform.position = hudPos.position; // 표시될 위치
-        hudText.GetComponent<DamageText>().damage = -power; // 데미지 전달
     }
 
-    IEnumerator PlayerHitEffect()
+    IEnumerator HitEffect()
     {
-        hitEffect.SetActive(true);
+        GameObject hitEft = Instantiate(hitEffect, hitEffectPos.position, Quaternion.identity);
+        yield return new WaitForSeconds(1.0f);
+        Destroy(hitEft);
+    }
+
+    IEnumerator PlayerHitImg()
+    {
+        hitimg.SetActive(true);
 
         //피격 상태 맞추려고
         yield return new WaitForSeconds(0.5f);
 
-        hitEffect.SetActive(false);
+        hitimg.SetActive(false);
     }
 
     IEnumerator PlayerDie()
     {
+        //모든 이펙트 및 버튼 비활성화
         DieImage.SetActive(true);
-        //버튼 비활성화
+        hitimg.SetActive(false);
+        AttEimg.SetActive(false);
         playerBtn.interactable = false;
+
+        yield return null;
+    }
+
+    IEnumerator test()
+    {
+        guage = 0;
 
         yield return null;
     }
@@ -112,10 +135,5 @@ public class PlayerHit : MonoBehaviour
     {
         Debug.Log("왜 안들어옴");
         guage = 0;
-    }
-
-    public void TakeDamage(int damage)
-    {
-
     }
 }

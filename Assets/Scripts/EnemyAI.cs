@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     private GameObject fHpBar;
     private GameObject fHpText;
     private GameObject fGuageBar;
+    public GameObject[] skill;
 
     //공격 상태 딜레이
     float currentTime = 0;
@@ -87,7 +88,7 @@ public class EnemyAI : MonoBehaviour
                 Attack();
                 break;
             case EnemyState.FULLATTACK:
-                //FullAttack();
+                FullAttack();
                 break;
             case EnemyState.HIT:
                 //Hit();
@@ -102,15 +103,16 @@ public class EnemyAI : MonoBehaviour
     void Idle()
     {
         enemyState = EnemyState.SCREAM;
-        enemyAni.SetTrigger("IdleToScream");
     }
 
     //포효 상태
     void Scream()
     {
-        //enemyState = EnemyState.
+        if(enemyState == EnemyState.FULLATTACK)
+        {
+            return;
+        }
         enemyState = EnemyState.ATTACK;
-        enemyAni.SetTrigger("ScreamToAttack");
     }
 
     //공격 상태
@@ -138,40 +140,60 @@ public class EnemyAI : MonoBehaviour
 
             //쉐이크 효과 호출
             //StartCoroutine(shake.ShakeCamera());
-            
         }
 
         //만약 enemy 게이지가 다차게되면 전체 스킬 발동
-        //if (guage >= maxGuage)
-        //{
-        //    enemyState = EnemyState.FULLATTACK;
-        //    //currentTime = attackDelay;
-        //}
+        if (guage >= maxGuage)
+        {
+            StartCoroutine(AttackProcess());
+        }
+    }
+
+    IEnumerator AttackProcess()
+    {
+        //모션 기다리게 해주기
+        yield return new WaitForSeconds(0.77f);
+        enemyState = EnemyState.FULLATTACK;
     }
 
     //전체 공격
-    //void FullAttack()
-    //{
-    //    currentTime += Time.deltaTime;
-    //    if (currentTime > attackDelay)
-    //    {
-    //        currentTime = 0;
-    //        enemyAni.SetTrigger("AttackToFullAttack");
+    void FullAttack()
+    {
+        currentTime += Time.deltaTime;
+        if (currentTime > attackDelay)
+        {
+            currentTime = 0;
+            enemyAni.SetTrigger("IdleToFullAttack");
+            int skillDmg = Random.Range(50, 70);
 
-    //        for (int i = 0; i < 5; i++)
-    //        {
-    //            player[i].GetComponent<PlayerHit>().hitDamage(50);
-    //        }
-    //        //스킬 사용 후 게이지 초기화
-    //        guage = 0;
-    //    }
+            for (int i = 0; i < 5; i++)
+            {
+                player[i].GetComponent<PlayerHit>().hitDamage(skillDmg);
+            }
 
-    //    if (guage == 0)
-    //    {
-    //        enemyState = EnemyState.ATTACK;
-    //        //currentTime = attackDelay;
-    //    }
-    //}
+            StartCoroutine(BossSkillEft());
+        }
+
+        //스킬 사용후 아이들 상태로
+        if (guage == 0)
+        {
+            enemyState = EnemyState.IDLE;
+        }
+    }
+
+    IEnumerator BossSkillEft()
+    {
+        //스킬 이펙트
+        GameObject skilleft = Instantiate(skill[0], transform.position, Quaternion.identity);
+
+        //스킬 사용 후 게이지 초기화
+        guage = 0;
+
+        yield return new WaitForSeconds(2.0f);
+
+        Destroy(skilleft);
+    }
+
 
     //enemy 공격받고 있는 상태
     public void HitEnemy(int damage)

@@ -13,8 +13,6 @@ public class Player : MonoBehaviour
 
     PlayerHit playerHit;
 
-    ParticleSystem particle = null;
-
     void Start()
     {
         //태그가 ENEMY인 오브젝트를 찾음
@@ -27,61 +25,82 @@ public class Player : MonoBehaviour
         //현재 선택한? 게임오브젝트의 이름을 가져온다.
         GameObject btnName = EventSystem.current.currentSelectedGameObject;
 
-        //플레이어 공격력 랜덤
-        int playerAtt = Random.Range(30, 40);
-
         //일치하는 플레이어의 스킬을 지정하고 생성.
+        //모두 코루틴으로 생성하고 삭제하기
         if (btnName.name == "Player1")
         {
-            Instantiate(skill[0], transform.position + new Vector3(-3.1f, -3.5f, 0), Quaternion.identity);
-            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
-            //스킬 사용 후 게이지 초기화
-            playerHit.guageZero();
+            StartCoroutine(Player1Skill());
         }
         else if (btnName.name == "Player2")
         {
-            Instantiate(skill[1], transform.position + new Vector3(-1.5f, -3.5f, 0), Quaternion.identity);
-            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
-            playerHit.guageZero();
+            StartCoroutine(Player2Skill());
         }
         else if (btnName.name == "Player3")
         {
-            Instantiate(skill[2], transform.position + new Vector3(0, -3.5f, 0), Quaternion.identity);
-            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
-            playerHit.guageZero();
+            StartCoroutine(Player3Skill());
         }
         else if (btnName.name == "Player4")
         {
-            Instantiate(skill[3], transform.position + new Vector3(1.5f, -3.5f, 0), Quaternion.identity);
-            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
-            playerHit.guageZero();
+            StartCoroutine(Player4Skill());
         }
         else
         {
-            Instantiate(skill[4], transform.position + new Vector3(0, 3.5f, 0), Quaternion.identity);
-            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
-            playerHit.guageZero();
-
-            //파티클이 있고
-            if(particle)
-            {
-                //파티클이 재생중이면 재생을 멈추고 지운다.
-                if(particle.isPlaying == true)
-                {
-                    particle.Stop();
-                    particle.Clear();
-                }
-            }
+            StartCoroutine(Player5Skill());
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D coll)
+    IEnumerator Player1Skill()
     {
-        Debug.Log("충돌했음");
+        //플레이어 공격력 랜덤
+        int playerAtt = Random.Range(30, 40);
+        GameObject skill1 = Instantiate(skill[0], transform.position + new Vector3(-3.1f, -3.5f, 0), Quaternion.identity);
+        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
 
-        if(coll.collider.tag == "EFFECT")
-        {
-            Destroy(coll.gameObject);
-        }
+        yield return new WaitForSeconds(3.0f);
+        Destroy(skill1);
+    }
+
+    IEnumerator Player2Skill()
+    {
+        //플레이어 공격력 랜덤
+        int playerAtt = Random.Range(30, 40);
+        GameObject skill2 = Instantiate(skill[1], transform.position + new Vector3(-1.5f, -3.5f, 0), Quaternion.identity);
+        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        yield return new WaitForSeconds(2.0f);
+        Destroy(skill2);
+    }
+
+    IEnumerator Player3Skill()
+    {
+        //플레이어 공격력 랜덤
+        int playerAtt = Random.Range(30, 40);
+        GameObject skill3 = Instantiate(skill[2], transform.position + new Vector3(0, -3.5f, 0), Quaternion.identity);
+        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        yield return new WaitForSeconds(2.0f);
+        Destroy(skill3);
+    }
+
+    IEnumerator Player4Skill()
+    {
+        //플레이어 공격력 랜덤
+        int playerAtt = Random.Range(30, 40);
+        GameObject skill4 = Instantiate(skill[3], transform.position + new Vector3(1.5f, -3.5f, 0), Quaternion.identity);
+        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        yield return new WaitForSeconds(2.0f);
+        Destroy(skill4);
+    }
+
+    IEnumerator Player5Skill()
+    {
+        //플레이어 공격력 랜덤
+        int playerAtt = Random.Range(30, 40);
+        GameObject skill5 = Instantiate(skill[4], transform.position + new Vector3(0, 3.5f, 0), Quaternion.identity);
+        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        yield return new WaitForSeconds(3.0f);
+        Destroy(skill5);
     }
 }

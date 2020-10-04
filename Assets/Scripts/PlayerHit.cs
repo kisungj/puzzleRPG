@@ -96,6 +96,29 @@ public class PlayerHit : MonoBehaviour
         }
     }
 
+    //플레이어 힐 스킬 사용할때
+    public void healing()
+    {
+        //hp가 남아있는 상태에서만 회복
+        if(hp > 0)
+        {
+            hp += 60;
+        }
+        //회복량이 최대 회복량을 넘어가게 되면 최대회복량으로 표시
+        if (hp >= maxHp)
+        {
+            hp = maxHp;
+        }
+
+        //플레이어 히트 텍스트 보이게하려구..
+        GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
+        hudText.transform.position = hudPos.position; // 표시될 위치
+        hudText.GetComponent<DamageText>().damage = 60; // 회복량 데미지 전달
+
+        //플레이어 히트 이펙트 생성 후 1초뒤 삭제
+        StartCoroutine(HitEffect());
+    }
+
     IEnumerator HitEffect()
     {
         GameObject hitEft = Instantiate(hitEffect, hitEffectPos.position, Quaternion.identity);

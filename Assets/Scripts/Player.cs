@@ -90,11 +90,12 @@ public class Player : MonoBehaviour
 
     IEnumerator Player4Skill()
     {
-        //플레이어 공격력 랜덤
-        int playerAtt = Random.Range(30, 40);
         GameObject skill4 = Instantiate(skill[3], transform.position + new Vector3(1.5f, -3.5f, 0), Quaternion.identity);
-        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
         playerHit[3].GetComponent<PlayerHit>().guage = 0;
+        for(int i = 0; i < 5; i++)
+        {
+            playerHit[i].GetComponent<PlayerHit>().healing(); 
+        }
 
         yield return new WaitForSeconds(2.0f);
         Destroy(skill4);
@@ -108,7 +109,7 @@ public class Player : MonoBehaviour
         enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
         playerHit[4].GetComponent<PlayerHit>().guage = 0;
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(2.5f);
         Destroy(skill5);
     }
 }

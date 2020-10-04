@@ -71,6 +71,7 @@ public class EnemyAI : MonoBehaviour
         guageSlider.value = guage / maxGuage;
 
         //오브젝트에 따른 위치 이동 (월드좌표를 화면좌표로 변환시켜준다)
+        //fHpBar.transform.position = Camera.main.WorldToViewportPoint(transform.position + new Vector3(0, 19.0f, 0));
         fHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
         fHpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
         fGuageBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.37f, 0));
@@ -137,9 +138,6 @@ public class EnemyAI : MonoBehaviour
             //에너미 공격력 랜덤
             int enemyAttack = Random.Range(20, 40);
             player[RanNum].GetComponent<PlayerHit>().hitDamage(enemyAttack);
-
-            //쉐이크 효과 호출
-            //StartCoroutine(shake.ShakeCamera());
         }
 
         //만약 enemy 게이지가 다차게되면 전체 스킬 발동
@@ -172,6 +170,8 @@ public class EnemyAI : MonoBehaviour
             }
 
             StartCoroutine(BossSkillEft());
+            //쉐이크 효과 호출
+            StartCoroutine(shake.ShakeCamera());
         }
 
         //스킬 사용후 아이들 상태로
@@ -184,7 +184,7 @@ public class EnemyAI : MonoBehaviour
     IEnumerator BossSkillEft()
     {
         //스킬 이펙트
-        GameObject skilleft = Instantiate(skill[0], transform.position, Quaternion.identity);
+        GameObject skilleft = Instantiate(skill[0], transform.position + new Vector3(0, 7.0f, 0), Quaternion.identity);
 
         //스킬 사용 후 게이지 초기화
         guage = 0;
@@ -199,7 +199,7 @@ public class EnemyAI : MonoBehaviour
     public void HitEnemy(int damage)
     {
         //만약에 enemy가 맞고 있거나 죽은 상태면 함수를 실행하지 않는다.
-        if (enemyState == EnemyState.HIT || enemyState == EnemyState.DIE)
+        if (/*enemyState == EnemyState.HIT || */enemyState == EnemyState.DIE)
         {
             return;
         }

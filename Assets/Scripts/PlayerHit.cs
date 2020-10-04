@@ -41,7 +41,7 @@ public class PlayerHit : MonoBehaviour
         hpText.text = hp + " / " + maxHp;
 
         //임시로 만든거 옮기던가 바꾸던가 해야댐
-        //버튼 OnClick 이벤트 활성화 비활성화 할수있음 (0은 인덱스 리스너 순서인거같음 맨위에꺼, 맨뒤에껄로 O1ff or On 시킬수 있음)
+        //버튼 OnClick 이벤트 활성화 비활성화 할수있음 (0은 인덱스 리스너 순서인거같음 맨위에꺼, 맨뒤에껄로 Off or On 시킬수 있음)
         //playerBtn.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
         if(guage >= 100 && hp > 0)
         {
@@ -65,6 +65,7 @@ public class PlayerHit : MonoBehaviour
         }
         else
         {
+            AttEimg.SetActive(false);
             playerBtn.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
         }
     }
@@ -128,12 +129,5 @@ public class PlayerHit : MonoBehaviour
         guage = 0;
 
         yield return null;
-    }
-
-    //게이지 초기화
-    public void guageZero()
-    {
-        Debug.Log("왜 안들어옴");
-        guage = 0;
     }
 }

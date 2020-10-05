@@ -30,6 +30,8 @@ public class PlayerHit : MonoBehaviour
     //시험용 타이머 지워도됨
     float time = 0;
 
+    byte alpha = 255;
+    bool alphaChange;
     //플레이어 히트 데미지 text하고 위치
     public GameObject hudDamageText;
     public Transform hudPos;
@@ -49,19 +51,43 @@ public class PlayerHit : MonoBehaviour
             guage = 100;
             playerBtn.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.RuntimeOnly);
 
+            Image effImg = AttEimg.GetComponent<Image>();
+            AttEimg.SetActive(true);
+
+            Color cor = effImg.color;
+            effImg.color = new Color32(0, 255, 0, alpha);
+
+            if (!alphaChange)
+            {
+
+                alpha -= 7;
+            }
+            else
+            {
+                alpha += 7;
+            }
+
+            if (alpha < 10)
+            {
+                alphaChange = true;
+            }
+            else if (alpha >= 255)
+            {
+                alphaChange = false;
+            }
             //깜빡이는 효과주기
-            if (time < 0.15f)
-            {
-                AttEimg.SetActive(true);
-            }
-            else 
-            {
-                if(time > 0.3f)
-                {
-                    AttEimg.SetActive(false);
-                    time = 0;
-                }
-            }
+            //if (time < 0.15f)
+            //{
+            //    AttEimg.SetActive(true);
+            //}
+            //else
+            //{
+            //    if (time > 0.3f)
+            //    {
+            //        AttEimg.SetActive(false);
+            //        time = 0;
+            //    }
+            //}
         }
         else
         {
@@ -122,8 +148,10 @@ public class PlayerHit : MonoBehaviour
     IEnumerator HitEffect()
     {
         GameObject hitEft = Instantiate(hitEffect, hitEffectPos.position, Quaternion.identity);
+        hitEft.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         Destroy(hitEft);
+        hitEft.SetActive(false);
     }
 
     IEnumerator PlayerHitImg()

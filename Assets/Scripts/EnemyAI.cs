@@ -72,9 +72,12 @@ public class EnemyAI : MonoBehaviour
 
         //오브젝트에 따른 위치 이동 (월드좌표를 화면좌표로 변환시켜준다)
         //fHpBar.transform.position = Camera.main.WorldToViewportPoint(transform.position + new Vector3(0, 19.0f, 0));
-        fHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
-        fHpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
-        fGuageBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.37f, 0));
+        fHpBar.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2630.2f, 0));
+        //fHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
+        //fHpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
+        fHpText.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2630.2f, 0));
+        //fGuageBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.37f, 0));
+        fGuageBar.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2470.0f, 0));
         floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
 
         switch (enemyState)

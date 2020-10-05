@@ -78,7 +78,8 @@ public class EnemyAI : MonoBehaviour
         fHpText.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2630.2f, 0));
         //fGuageBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.37f, 0));
         fGuageBar.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2470.0f, 0));
-        floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
+        //floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
+        floorImage.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2650.0f, 0));
 
         switch (enemyState)
         {

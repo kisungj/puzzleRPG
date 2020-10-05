@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 135136812323407706}
   - component: {fileID: 135136812323407709}
   - component: {fileID: 135136812323407708}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: DmgText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

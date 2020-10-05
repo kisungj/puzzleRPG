@@ -30,8 +30,10 @@ public class PlayerHit : MonoBehaviour
     //시험용 타이머 지워도됨
     float time = 0;
 
+    //게이지 충전시 알파값 효과 주려고
     byte alpha = 255;
     bool alphaChange;
+
     //플레이어 히트 데미지 text하고 위치
     public GameObject hudDamageText;
     public Transform hudPos;
@@ -54,17 +56,18 @@ public class PlayerHit : MonoBehaviour
             Image effImg = AttEimg.GetComponent<Image>();
             AttEimg.SetActive(true);
 
-            Color cor = effImg.color;
-            effImg.color = new Color32(0, 255, 0, alpha);
+            //현재 지정해둔 색상 가져오고 알파값만 조정하려고
+            Color32 cor = effImg.color;
+            effImg.color = new Color32(cor.r, cor.g, cor.b, alpha);
 
+            //게이지 충전되면 알파값 효과주기
             if (!alphaChange)
             {
-
-                alpha -= 7;
+                alpha -= 10;
             }
             else
             {
-                alpha += 7;
+                alpha += 10;
             }
 
             if (alpha < 10)
@@ -75,19 +78,6 @@ public class PlayerHit : MonoBehaviour
             {
                 alphaChange = false;
             }
-            //깜빡이는 효과주기
-            //if (time < 0.15f)
-            //{
-            //    AttEimg.SetActive(true);
-            //}
-            //else
-            //{
-            //    if (time > 0.3f)
-            //    {
-            //        AttEimg.SetActive(false);
-            //        time = 0;
-            //    }
-            //}
         }
         else
         {
@@ -140,9 +130,6 @@ public class PlayerHit : MonoBehaviour
         GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
         hudText.transform.position = hudPos.position; // 표시될 위치
         hudText.GetComponent<DamageText>().damage = 60; // 회복량 데미지 전달
-
-        //플레이어 히트 이펙트 생성 후 1초뒤 삭제
-        StartCoroutine(HitEffect());
     }
 
     IEnumerator HitEffect()

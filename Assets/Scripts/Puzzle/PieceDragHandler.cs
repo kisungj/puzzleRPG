@@ -14,7 +14,7 @@ public struct PieceDragHandler
     public Piece targetPiece;
     public Vector2 originPosition;
     public Node originNode;
-
+    Vector3 temp;
     //--------------------------------------------------------------------------------
     public bool IsNull()
     {
@@ -66,14 +66,19 @@ public struct PieceDragHandler
                 finalDirection.y *= -1f;
         }
 
+
         targetPiece.rectTransform.position = originPosition + finalDirection;
+        if(RectTransformUtility.ScreenPointToWorldPointInRectangle(targetPiece.transform.parent.GetComponent<RectTransform>(),
+            eventData.position, Camera.main, out temp))
+        {
+            targetPiece.rectTransform.position = temp;
+        }
     }
 
     //--------------------------------------------------------------------------------
     public Vector2 GetDragDirection()
     {
         Vector2 piecePos = new Vector2(targetPiece.rectTransform.position.x, targetPiece.rectTransform.position.y);
-        return (piecePos - originPosition).normalized;
+        return (piecePos - originPosition);
     }
-
 }

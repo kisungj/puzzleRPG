@@ -17,6 +17,11 @@ public class EnemyAI : MonoBehaviour
 
     EnemyState enemyState;
 
+    private float h = 0.0f;
+    private float v = 0.0f;
+    private Transform tr;
+    public float moveSpeed = 10.0f;
+
     public float hp = 0;
     private float maxHp = 500.0f;
     private float guage = 0;
@@ -62,6 +67,8 @@ public class EnemyAI : MonoBehaviour
 
         //shake 스크립트를 호출
         shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+
+        tr = GetComponent<Transform>();
     }
 
     void Update()
@@ -80,6 +87,13 @@ public class EnemyAI : MonoBehaviour
         fGuageBar.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2470.0f, 0));
         //floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
         floorImage.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2650.0f, 0));
+
+        h = Input.GetAxis("Horizontal");
+        v = Input.GetAxis("Vertical");
+        Debug.Log("높이=" + h.ToString());
+        Debug.Log("평지=" + v.ToString());
+        Vector3 moveDir = Vector3.up * v;
+        tr.Translate(moveDir * moveSpeed * Time.deltaTime, Space.World);
 
         switch (enemyState)
         {

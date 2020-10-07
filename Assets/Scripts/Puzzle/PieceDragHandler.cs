@@ -66,7 +66,6 @@ public struct PieceDragHandler
                 finalDirection.y *= -1f;
         }
 
-
         targetPiece.rectTransform.position = originPosition + finalDirection;
         if(RectTransformUtility.ScreenPointToWorldPointInRectangle(targetPiece.transform.parent.GetComponent<RectTransform>(),
             eventData.position, Camera.main, out temp))

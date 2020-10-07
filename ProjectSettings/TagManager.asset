@@ -7,6 +7,7 @@ TagManager:
   - PLAYER
   - EFFECT
   - ENEMY
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - 
   - Effect
-  - 
+  - UISundry
   - 
   - 
   - 
@@ -44,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: effect
+  - name: Effect
+    uniqueID: 1962398287
+    locked: 0
+  - name: UI
     uniqueID: 1728920351
     locked: 0

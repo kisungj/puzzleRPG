@@ -45,9 +45,12 @@ public class EnemyAI : MonoBehaviour
     //플레이어는 5명이라 배열로
     private GameObject[] player;
 
-    //Shake 클래스를 저장할 변수
+    //카메라 클래스를 저장할 변수
     private CameraShake shake;
-    private testCamera camera;
+    private testCamera tecamera;
+
+    //emission 클래스를 저장할 변수
+    private Emission emission;
 
     //에너미 히트 데미지 text하고 위치
     public GameObject hudDamageText;
@@ -68,7 +71,10 @@ public class EnemyAI : MonoBehaviour
 
         //shake 스크립트를 호출
         shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
-        camera = GameObject.Find("Main Camera").GetComponent<testCamera>();
+        tecamera = GameObject.Find("Main Camera").GetComponent<testCamera>();
+
+        //emission 스크립트 호출
+        emission = GameObject.Find("EnemyManager/Dragon/Dragon").GetComponent<Emission>();
 
         tr = GetComponent<Transform>();
     }
@@ -191,7 +197,7 @@ public class EnemyAI : MonoBehaviour
             StartCoroutine(BossSkillEft());
             //쉐이크 효과 호출
             StartCoroutine(shake.ShakeCamera());
-            StartCoroutine(camera.MoveCamera());
+            StartCoroutine(tecamera.MoveCamera());
         }
 
         //스킬 사용후 아이들 상태로
@@ -230,6 +236,9 @@ public class EnemyAI : MonoBehaviour
         GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
         hudText.transform.position = hudPos.position; // 표시될 위치
         hudText.GetComponent<DamageText>().damage = -damage; // 데미지 전달
+
+        //에너미 shader emission 조절
+        StartCoroutine(emission.ObjEmission());
 
         //HP가 남아있으면
         if (hp > 0)

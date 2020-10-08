@@ -39,7 +39,7 @@ public class CameraShake : MonoBehaviour
                 //불규칙한 회전값을 펄린 노이즈 함수를 이용해 추출
                 Vector3 shakeRot = new Vector3(0, 0, Mathf.PerlinNoise(Time.time * magnitudeRot, 0.0f));
 
-                //카메라의 회전값을 변경
+                //카메라의 회전값을 변경 
                 shakeCamera.localRotation = Quaternion.Euler(shakeRot);
             }
             //진동 시간을 누적

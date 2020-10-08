@@ -24,7 +24,7 @@ public class EnemyAI : MonoBehaviour
 
     public float hp = 0;
     private float maxHp = 500.0f;
-    private float guage = 0;
+    private float guage = 100.0f;
     public float maxGuage = 100.0f;
     private GameObject fHpBar;
     private GameObject fHpText;
@@ -47,6 +47,7 @@ public class EnemyAI : MonoBehaviour
 
     //Shake 클래스를 저장할 변수
     private CameraShake shake;
+    private testCamera camera;
 
     //에너미 히트 데미지 text하고 위치
     public GameObject hudDamageText;
@@ -67,6 +68,7 @@ public class EnemyAI : MonoBehaviour
 
         //shake 스크립트를 호출
         shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        camera = GameObject.Find("Main Camera").GetComponent<testCamera>();
 
         tr = GetComponent<Transform>();
     }
@@ -88,12 +90,12 @@ public class EnemyAI : MonoBehaviour
         //floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
         floorImage.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2650.0f, 0));
 
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
-        Debug.Log("높이=" + h.ToString());
-        Debug.Log("평지=" + v.ToString());
-        Vector3 moveDir = Vector3.up * v;
-        tr.Translate(moveDir * moveSpeed * Time.deltaTime, Space.World);
+        //h = Input.GetAxis("Horizontal");
+        //v = Input.GetAxis("Vertical");
+        //Debug.Log("높이=" + h.ToString());
+        //Debug.Log("평지=" + v.ToString());
+        //Vector3 moveDir = Vector3.up * v;
+        //tr.Translate(moveDir * moveSpeed * Time.deltaTime, Space.World);
 
         switch (enemyState)
         {
@@ -146,7 +148,6 @@ public class EnemyAI : MonoBehaviour
         currentTime += Time.deltaTime;
         if (currentTime > attackDelay)
         {
-            Debug.Log("보스 공격");
             currentTime = 0;
             enemyAni.SetTrigger("ScreamToAttack");
             //공격 할때마다 게이지 채우기
@@ -190,6 +191,7 @@ public class EnemyAI : MonoBehaviour
             StartCoroutine(BossSkillEft());
             //쉐이크 효과 호출
             StartCoroutine(shake.ShakeCamera());
+            StartCoroutine(camera.MoveCamera());
         }
 
         //스킬 사용후 아이들 상태로

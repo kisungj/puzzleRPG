@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,5 +20,11 @@ public class Node
         this.Index = new Index(indexX,indexY);
         this.position = position;
         this.piece = piece;
+    }
+
+    //새로운 피스 생성
+    public void setPieceType(PieceType type)
+    {
+        piece.pieceType = type;
     }
 }

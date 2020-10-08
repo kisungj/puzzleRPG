@@ -46,6 +46,7 @@ public class PanelBoard : MonoBehaviour
     private void Start()
     {
         CreateBoard();
+        PieceMix();
     }
 
     //--------------------------------------------------------------------------------
@@ -161,6 +162,58 @@ public class PanelBoard : MonoBehaviour
                 mNodeList[y, x] = new Node(x, y, newPiece.rectTransform.anchoredPosition, newPiece);
             }
         }
+    }
+
+    //중복 피스 재설정
+    void PieceMix()
+    {
+        List<PieceType> pieceMix = new List<PieceType>();
+
+        //생성된 피스를 다시 돌면서 (상하좌우)
+        for (int x = 0; x < mCellWidthCount; x++)
+        {
+            for (int y = 0; y < mCellHeightCount; y++)
+            {
+                Index index = new Index(x, y);
+                PieceType type = GetPieceType(index);
+
+                List<Node> matchList = CheckThreeMatch(index);
+
+                //매치된 퍼즐이 한세트? 라도 있으면 다시 sprites랑 설정해주기
+                while (matchList.Count > 0)
+                {
+                    if (!pieceMix.Contains(type))
+                        pieceMix.Add(type);
+
+                    PieceType newType = ResetPieceType(pieceMix);
+
+                    mNodeList[y, x].setPieceType(newType);
+                    GetPiece(index).pieceImg.sprite = mSprireResources[(int)newType];
+
+                    matchList = CheckThreeMatch(index);
+                }
+
+                pieceMix.Clear();
+            }
+        }
+    }
+
+    //중복 피스 중 겹치지 않는 타입 리턴
+    PieceType ResetPieceType(List<PieceType> pieceMix)
+    {
+        List<PieceType> type = new List<PieceType>();
+
+        //리소스 타입 다 담고
+        for (int i = 0; i < mSprireResources.Length; i++)
+            type.Add((PieceType)i);
+
+        //들어온 리스트에서 중복 리소스 삭제
+        for (int i = 0; i < pieceMix.Count; i++)
+            type.Remove((PieceType)i);
+
+        //중복되지 않는 리소스 리턴
+        if (type == null) return PieceType.Null;
+        return type[UnityEngine.Random.Range(0, type.Count)];
     }
 
     //--------------------------------------------------------------------------------
@@ -414,7 +467,6 @@ public class PanelBoard : MonoBehaviour
                 MergeNodeList(result, line);
             }
         }
-        // }}
 
         //매치된 결과가 있다면 시작 노드 추가
         if(result.Count != 0)
@@ -423,7 +475,6 @@ public class PanelBoard : MonoBehaviour
             if (result.Contains(node) == false)
                 result.Add(GetNode(startIndex));
         }
-
         return result;
     }
 

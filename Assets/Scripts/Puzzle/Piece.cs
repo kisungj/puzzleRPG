@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 
 public enum PieceType
 {
-    Cube = 0,
-    Cylinder = 1,
-    Pryamid = 2,
-    Sphere = 3,
-    Diamond = 4,
+    Bule = 0,
+    Green = 1,
+    Purple = 2,
+    Red = 3,
+    Yellow = 4,
     Null = 5
 }
 
@@ -26,8 +26,9 @@ public class Piece : MonoBehaviour ,IPointerDownHandler, IDragHandler, IPointerU
     Index mIndex;
 
     public RectTransform rectTransform { get { return mTransform; } }
-    public PieceType pieceType { get { return mPieceType; } }
+    public PieceType pieceType { get { return mPieceType; } set { mPieceType = value; } }
     public Index index { get { return mIndex; } set { mIndex = value; } }
+    public Image pieceImg { get { return mImage; } set { mImage = value; } }
 
     //--------------------------------------------------------------------------------
     public void Init(Index index ,PieceType pieceType, Sprite sprite)
@@ -72,8 +73,9 @@ public class Piece : MonoBehaviour ,IPointerDownHandler, IDragHandler, IPointerU
         {
             float value = 2f * Time.deltaTime;
             mTransform.localScale = mTransform.localScale - new Vector3(value, value, value);
-            yield return null;
         }
+        yield return null;
+
 
         Destroy(gameObject);
     }

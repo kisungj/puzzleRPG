@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 1061848879}
   m_Layer: 5
   m_Name: Stage3_Button
-  m_TagString: Untagged
+  m_TagString: STAGE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -712,7 +712,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1141858034}
-        m_MethodName: StageScene3
+        m_MethodName: StageScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 1182936018}
   m_Layer: 5
   m_Name: Stage2_Button
-  m_TagString: Untagged
+  m_TagString: STAGE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -961,7 +961,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1141858034}
-        m_MethodName: StageScene2
+        m_MethodName: StageScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 2005430209}
   m_Layer: 5
   m_Name: Stage1_Button
-  m_TagString: Untagged
+  m_TagString: STAGE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1522,7 +1522,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1141858034}
-        m_MethodName: StageScene1
+        m_MethodName: StageScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public enum PieceType
 {
-    Bule = 0,
+    Blue = 0,
     Green = 1,
     Purple = 2,
     Red = 3,

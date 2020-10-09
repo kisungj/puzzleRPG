@@ -25,6 +25,10 @@ public class PanelBoard : MonoBehaviour
     GameObject mPrefabPiece;
     //가상의 노드들
     Node[,] mNodeList;
+    //플레이어 찾기
+    [SerializeField]
+    private GameObject[] playerHit;
+
 
     int mCellWidthCount;
     int mCellHeightCount;
@@ -45,6 +49,8 @@ public class PanelBoard : MonoBehaviour
     //--------------------------------------------------------------------------------
     private void Start()
     {
+        playerHit = GameObject.FindGameObjectsWithTag("PLAYER");
+
         CreateBoard();
         PieceMix();
     }
@@ -257,7 +263,6 @@ public class PanelBoard : MonoBehaviour
         Index index = targetPiece.index;
         //Drag에 데이터 셋
         mDragHanlder.Set(targetPiece, mNodeList[index.y, index.x]);
-        Debug.Log("OnPointerDown : " + targetPiece.name);
     }
     //--------------------------------------------------------------------------------
     public void OnDrag(PointerEventData eventData,Piece targetPiece)
@@ -300,7 +305,6 @@ public class PanelBoard : MonoBehaviour
 
         //드래깅 끝났으므로 Reset 
         mDragHanlder.Reset();
-        Debug.Log("OnPointerUp : " + targetPiece.name);
     }
 
     //--------------------------------------------------------------------------------
@@ -326,7 +330,6 @@ public class PanelBoard : MonoBehaviour
     //스왑 Move가 끝났을 경우에 실행
     public void OnEventEndSwap(List<PieceMoveHandler> moveList)
     {
-        Debug.Log("PanelBoard::OnEventEndSwap");
         //match된 Piece들 받을 리스트
         List<Node> matchList = new List<Node>();
         //움직인 Piece들 기준으로 ThreeMatch 검사
@@ -362,6 +365,27 @@ public class PanelBoard : MonoBehaviour
             //매치된 리스트들 전부 삭제
             for(int i =0; i < matchList.Count; ++i)
             {
+                //사라지는 퍼즐색상에 맞춰 같은 색상의 플레이어 게이지가 찬다.
+                if(matchList[i].piece.pieceType.ToString() == "Blue")
+                {
+                    playerHit[0].GetComponent<PlayerHit>().guage += 11.4f;
+                }
+                else if(matchList[i].piece.pieceType.ToString() == "Green")
+                {
+                    playerHit[3].GetComponent<PlayerHit>().guage += 11.4f;
+                }
+                else if(matchList[i].piece.pieceType.ToString() == "Purple")
+                {
+                    playerHit[4].GetComponent<PlayerHit>().guage += 11.4f;
+                }
+                else if(matchList[i].piece.pieceType.ToString() == "Red")
+                {
+                    playerHit[2].GetComponent<PlayerHit>().guage += 11.4f;
+                }
+                else
+                {
+                    playerHit[1].GetComponent<PlayerHit>().guage += 11.4f;
+                }
                 DestroyPiece(matchList[i]);
             }
         }
@@ -384,6 +408,28 @@ public class PanelBoard : MonoBehaviour
         //매치된 애들 전부 삭제
         for(int i =0; i < matchList.Count;++i)
         {
+            //사라지는 퍼즐색상에 맞춰 같은 색상의 플레이어 게이지가 찬다.
+            if (matchList[i].piece.pieceType.ToString() == "Blue")
+            {
+                playerHit[0].GetComponent<PlayerHit>().guage += 11.4f;
+            }
+            else if (matchList[i].piece.pieceType.ToString() == "Green")
+            {
+                playerHit[3].GetComponent<PlayerHit>().guage += 11.4f;
+            }
+            else if (matchList[i].piece.pieceType.ToString() == "Purple")
+            {
+                playerHit[4].GetComponent<PlayerHit>().guage += 11.4f;
+            }
+            else if (matchList[i].piece.pieceType.ToString() == "Red")
+            {
+                playerHit[2].GetComponent<PlayerHit>().guage += 11.4f;
+            }
+            else
+            {
+                playerHit[1].GetComponent<PlayerHit>().guage += 11.4f;
+            }
+
             DestroyPiece(matchList[i]);
         }
     }

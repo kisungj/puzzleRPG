@@ -26,6 +26,10 @@ public class PlayerHit : MonoBehaviour
     public GameObject AttEimg;
     //플레이어 죽은상태 이미지
     public GameObject DieImage;
+    //플레이어 게이지 풀 이펙트
+    public GameObject guageEft;
+    //플레이어 게이지 이펙트 위치
+    public Transform guageEftPos;
 
     //시험용 타이머 지워도됨
     float time = 0;
@@ -52,6 +56,9 @@ public class PlayerHit : MonoBehaviour
             time += Time.deltaTime;
             guage = 100;
             playerBtn.onClick.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.RuntimeOnly);
+
+            //게이지 풀로찼으면 게이지 이펙트 표시
+            StartCoroutine(GuageEffect());
 
             Image effImg = AttEimg.GetComponent<Image>();
             AttEimg.SetActive(true);
@@ -90,7 +97,6 @@ public class PlayerHit : MonoBehaviour
     public void hitDamage(int power)
     {
         hp -= power;
-        guage += 34;
         //플레이어가 HP가 남아있는 상태에서 맞으면
         if(hp > 0)
         {
@@ -132,6 +138,14 @@ public class PlayerHit : MonoBehaviour
         hudText.GetComponent<DamageText>().damage = 60; // 회복량 데미지 전달
     }
 
+    IEnumerator GuageEffect()
+    {
+        GameObject guageEftObj = Instantiate(guageEft); // 생성할 게이지이펙트 오브젝트
+        guageEftObj.transform.position = guageEftPos.position;  //생성할 위치
+        yield return new WaitForSeconds(0.5f);
+        Destroy(guageEftObj);
+    }
+
     IEnumerator HitEffect()
     {
         GameObject hitEft = Instantiate(hitEffect, hitEffectPos.position, Quaternion.identity);
@@ -158,13 +172,6 @@ public class PlayerHit : MonoBehaviour
         hitimg.SetActive(false);
         AttEimg.SetActive(false);
         playerBtn.interactable = false;
-
-        yield return null;
-    }
-
-    IEnumerator test()
-    {
-        guage = 0;
 
         yield return null;
     }

@@ -51,6 +51,7 @@ public class ChangeScene : MonoBehaviour
         {
             SceneManager.LoadScene(4);
         }
+        
         yield return null;
     }
 }

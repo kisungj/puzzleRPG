@@ -30,6 +30,8 @@ public class PlayerHit : MonoBehaviour
     public GameObject guageEft;
     //플레이어 게이지 이펙트 위치
     public Transform guageEftPos;
+    //테스트중
+    GameObject guageEftObj;
 
     //시험용 타이머 지워도됨
     float time = 0;
@@ -59,6 +61,26 @@ public class PlayerHit : MonoBehaviour
 
             //게이지 풀로찼으면 게이지 이펙트 표시
             StartCoroutine(GuageEffect());
+
+            //int count = 0;
+            //bool onOff = true;
+
+            //if(onOff)
+            //{
+            //    guageEftObj = Instantiate(guageEft); // 생성할 게이지이펙트 오브젝트
+            //    guageEftObj.transform.position = guageEftPos.position;  //생성할 위치
+            //    count++;
+
+            //    if(count >= 1)
+            //    {
+            //        onOff = false;
+            //    }
+            //}
+
+            //if (guage == 0)
+            //{
+            //    Destroy(guageEftObj);
+            //}
 
             Image effImg = AttEimg.GetComponent<Image>();
             AttEimg.SetActive(true);

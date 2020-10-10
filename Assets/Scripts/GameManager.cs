@@ -10,22 +10,20 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         Start,
-        Pause
+        Pause,
+        ReStart
     }
+
+    //게임 시작시 3초뒤에 나타나게 하려는 UI들
+    public GameObject enemyObj;
+    public GameObject enemyUI;
+    public GameObject attribute;
+    public GameObject effectCanvas;
+    public GameObject uiCanvas;
+    public GameObject platyerma;
 
     public GameState gameState;
-
     public GameObject gameOption;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     //설정 창 열기
     public void OpenOptionWindow()
@@ -42,12 +40,25 @@ public class GameManager : MonoBehaviour
         gameOption.SetActive(false);
         //게임 이어서하기
         Time.timeScale = 1.0f;
-        gameState = GameState.Start;
+        gameState = GameState.ReStart;
     }
 
     //main 씬으로 넘어가기
     public void PreviousScene()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(1);
+    }
+
+    //게임 시작하려면 시간 다시 가동
+    public void GameStart()
+    {
+        uiCanvas.SetActive(true);
+        enemyObj.SetActive(true);
+        enemyUI.SetActive(true);
+        attribute.SetActive(true);
+        effectCanvas.SetActive(true);
+        platyerma.SetActive(true);
+        gameState = GameState.Start;
     }
 }

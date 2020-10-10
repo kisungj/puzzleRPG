@@ -64,6 +64,7 @@ public class EnemyAI : MonoBehaviour
         fHpBar = GameObject.Find("UICanvas/EnemyUI/HpBar");
         fHpText = GameObject.Find("UICanvas/EnemyUI/HpText");
         fGuageBar = GameObject.Find("UICanvas/EnemyUI/GuageBar");
+
         //태그로 이름찾는건데 objects라 배열임
         player = GameObject.FindGameObjectsWithTag("PLAYER");
 
@@ -87,21 +88,16 @@ public class EnemyAI : MonoBehaviour
 
         //오브젝트에 따른 위치 이동 (월드좌표를 화면좌표로 변환시켜준다)
         //fHpBar.transform.position = Camera.main.WorldToViewportPoint(transform.position + new Vector3(0, 19.0f, 0));
-        fHpBar.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2630.2f, 0));
+        fHpBar.transform.position = Camera.main.ScreenToViewportPoint(hudPos.transform.position + new Vector3(0, 2630.2f, 0));
         //fHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
         //fHpText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.2f, 0));
-        fHpText.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2630.2f, 0));
+        fHpText.transform.position = Camera.main.ScreenToViewportPoint(hudPos.transform.position + new Vector3(0, 2630.2f, 0));
         //fGuageBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.37f, 0));
-        fGuageBar.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2470.0f, 0));
+        fGuageBar.transform.position = Camera.main.ScreenToViewportPoint(hudPos.transform.position + new Vector3(0, 2470.0f, 0));
         //floorImage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.1f, 0));
-        floorImage.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2650.0f, 0));
-
-        //h = Input.GetAxis("Horizontal");
-        //v = Input.GetAxis("Vertical");
-        //Debug.Log("높이=" + h.ToString());
-        //Debug.Log("평지=" + v.ToString());
-        //Vector3 moveDir = Vector3.up * v;
-        //tr.Translate(moveDir * moveSpeed * Time.deltaTime, Space.World);
+        //floorImage.transform.position = Camera.main.ScreenToViewportPoint(transform.position + new Vector3(0, 2650.0f, 0));
+        //floorImage.transform.position = Camera.main.WorldToViewportPoint(hudPos.transform.position + new Vector3(-4.0f, 20.5f, 0));
+        //floorImage.transform.position = new Vector3(hudPos.transform.position.x, hudPos.transform.position.y - 2.5f, hudPos.transform.position.z);
 
         switch (enemyState)
         {
@@ -197,7 +193,7 @@ public class EnemyAI : MonoBehaviour
             StartCoroutine(BossSkillEft());
             //쉐이크 효과 호출
             StartCoroutine(shake.ShakeCamera());
-            StartCoroutine(tecamera.MoveCamera());
+            //StartCoroutine(tecamera.MoveCamera());
         }
 
         //스킬 사용후 아이들 상태로

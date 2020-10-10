@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     private GameObject[] enemy;
     private GameObject[] playerHit;
 
-    public GameObject position;
+    private GameObject position;
+    [SerializeField]
+    private Attribute attribute;
 
     void Start()
     {
@@ -56,7 +58,17 @@ public class Player : MonoBehaviour
         //플레이어 공격력 랜덤
         int playerAtt = Random.Range(30, 40);
         GameObject skill1 = Instantiate(skill[0], transform.position + new Vector3(-3.1f, -4.0f, 1), Quaternion.identity);
-        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+        
+        //속성 공격으로 반대되는 속성이면 데미지 2배를 준다.
+        if(attribute.currentimg == 0)
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+        }
+        else
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+        }
+
         //플레이어 스킬 사용 후 게이지 초기화
         playerHit[0].GetComponent<PlayerHit>().guage = 0;
 
@@ -69,7 +81,16 @@ public class Player : MonoBehaviour
         //플레이어 공격력 랜덤
         int playerAtt = Random.Range(30, 40);
         GameObject skill2 = Instantiate(skill[1], transform.position + new Vector3(0, 3.5f, 10), Quaternion.identity);
-        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        if(attribute.currentimg == 4)
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+        }
+        else
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+        }
+
         playerHit[1].GetComponent<PlayerHit>().guage = 0;
 
         yield return new WaitForSeconds(2.0f);
@@ -81,7 +102,16 @@ public class Player : MonoBehaviour
         //플레이어 공격력 랜덤
         int playerAtt = Random.Range(30, 40);
         GameObject skill3 = Instantiate(skill[2], transform.position + new Vector3(0, -4.0f, 10), Quaternion.identity);
-        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        if (attribute.currentimg == 1)
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+        }
+        else
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+        }
+
         playerHit[2].GetComponent<PlayerHit>().guage = 0;
 
         yield return new WaitForSeconds(2.0f);
@@ -106,7 +136,16 @@ public class Player : MonoBehaviour
         //플레이어 공격력 랜덤
         int playerAtt = Random.Range(30, 40);
         GameObject skill5 = Instantiate(skill[4], transform.position + new Vector3(0, 3.5f, 10), Quaternion.identity);
-        enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+
+        if (attribute.currentimg == 3)
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+        }
+        else
+        {
+            enemy[0].GetComponent<EnemyAI>().HitEnemy(playerAtt);
+        }
+
         playerHit[4].GetComponent<PlayerHit>().guage = 0;
 
         yield return new WaitForSeconds(2.5f);

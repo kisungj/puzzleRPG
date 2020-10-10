@@ -28,6 +28,8 @@ public class PanelBoard : MonoBehaviour
     //플레이어 찾기
     [SerializeField]
     private GameObject[] playerHit;
+    [SerializeField]
+    private GameObject puzzleSkill;
 
 
     int mCellWidthCount;
@@ -50,6 +52,7 @@ public class PanelBoard : MonoBehaviour
     private void Start()
     {
         playerHit = GameObject.FindGameObjectsWithTag("PLAYER");
+        puzzleSkill = GameObject.Find("UICanvas/Puzzle");
 
         CreateBoard();
         PieceMix();
@@ -386,6 +389,8 @@ public class PanelBoard : MonoBehaviour
                 {
                     playerHit[1].GetComponent<PlayerHit>().guage += 11.4f;
                 }
+                //StartCoroutine(puzzleEffect());
+
                 DestroyPiece(matchList[i]);
             }
         }
@@ -405,6 +410,7 @@ public class PanelBoard : MonoBehaviour
                 MergeNodeList(matchList, tempCheck);
             }
         }
+
         //매치된 애들 전부 삭제
         for(int i =0; i < matchList.Count;++i)
         {
@@ -587,5 +593,14 @@ public class PanelBoard : MonoBehaviour
 
         node.piece.DestroyPiece();
         node.piece = null;
+    }
+
+    IEnumerator puzzleEffect()
+    {
+        GameObject puzSkill = Instantiate(puzzleSkill, new Vector3(0, 0, 0), Quaternion.identity);
+
+        yield return new WaitForSeconds(2.0f);
+
+        Destroy(puzSkill);
     }
 }

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class ChangeScene : MonoBehaviour
 {
+    public GameObject canavs;
+    public GameObject[] stageUI;
+
     public Image Panel;
     float time = 0f; //지속시간
     float f_Time = 1f;//페이드가 몇초간 지속될지
@@ -22,6 +25,8 @@ public class ChangeScene : MonoBehaviour
         GameObject btnName = EventSystem.current.currentSelectedGameObject;
 
         Panel.gameObject.SetActive(true);
+        canavs.SetActive(false);
+
         //다시 시작할때 한번더 초기화해야 정상적으로 실행됨
         time = 0;
         Color alpha = Panel.color;
@@ -36,6 +41,7 @@ public class ChangeScene : MonoBehaviour
             Panel.color = alpha;
             yield return null;
         }
+
         yield return new WaitForSeconds(0.5f);
 
         //버튼이름에 맞춰서 씬이동
@@ -47,11 +53,29 @@ public class ChangeScene : MonoBehaviour
         {
             SceneManager.LoadScene(3);
         }
-        else if (btnName.name == "Stage3_Button")
+        else if (btnName.name == "Entrance3_Button")
         {
             SceneManager.LoadScene(4);
         }
         
         yield return null;
+    }
+
+    public void StageInfo()
+    {
+        GameObject StageName = EventSystem.current.currentSelectedGameObject;
+
+        if(StageName.name == "Stage1_Button")
+        {
+            stageUI[0].SetActive(true);
+        }
+        else if(StageName.name == "Stage2_Button")
+        {
+            stageUI[1].SetActive(true);
+        }
+        else if(StageName.name == "Stage3_Button")
+        {
+            stageUI[2].SetActive(true);
+        }
     }
 }

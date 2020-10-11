@@ -23,13 +23,14 @@ public class EnemyAI : MonoBehaviour
     public float moveSpeed = 10.0f;
 
     public float hp = 0;
-    private float maxHp = 500.0f;
-    private float guage = 100.0f;
+    public float maxHp = 700.0f;
+    private float guage = 0;
     public float maxGuage = 100.0f;
     private GameObject fHpBar;
     private GameObject fHpText;
     private GameObject fGuageBar;
     public GameObject[] skill;
+    public GameObject stageClear;
 
     //공격 상태 딜레이
     float currentTime = 0;
@@ -55,6 +56,10 @@ public class EnemyAI : MonoBehaviour
     //에너미 히트 데미지 text하고 위치
     public GameObject hudDamageText;
     public Transform hudPos;
+
+    //사운드
+    [SerializeField]
+    private BgmOn bgmOn;
 
     void Start()
     {
@@ -273,15 +278,17 @@ public class EnemyAI : MonoBehaviour
     //죽음 상태
     void Die()
     {
-        //진행 중일 수 있는 피격 모션 코루틴을 중지시킴
-        StopAllCoroutines();
         StartCoroutine(DieProcess());
+        //진행 중일 수 있는 피격 모션 코루틴을 중지시킴
+        //StopAllCoroutines();
     }
 
     IEnumerator DieProcess()
     {
-        yield return new WaitForSeconds(2f);
+        //bgmOn.Audio();
 
-        Destroy(enemyAni.gameObject);
+        yield return new WaitForSeconds(3.5f);
+
+        stageClear.SetActive(true);
     }
 }

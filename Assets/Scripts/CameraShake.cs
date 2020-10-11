@@ -20,7 +20,7 @@ public class CameraShake : MonoBehaviour
         originRot = shakeCamera.localRotation;
     }
 
-    public IEnumerator ShakeCamera(float duration = 2.0f, float magnitudePos = 15.0f, float magnitudeRot = 17.7f)
+    public IEnumerator ShakeCamera(float duration = 2.0f, float magnitudePos = 25.0f, float magnitudeRot = 27.7f)
     {
         //지나간 시간을 누적할 변수
         float passTime = 0.0f;

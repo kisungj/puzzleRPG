@@ -44,7 +44,7 @@ public class FadeOut : MonoBehaviour
 
         battleStart.enabled = false;
         battleText.enabled = false;
-        Panel.enabled = false;
+        Panel.gameObject.SetActive(false);
         //3초후 게임 시작하려고
         gManager.GameStart();
     }

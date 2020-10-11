@@ -50,6 +50,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    //스테이지 클리어 후 main 씬으로 넘어가기
+    public void StageClear()
+    {
+        SceneManager.LoadScene(1);
+    }
+
     //게임 시작하려면 시간 다시 가동
     public void GameStart()
     {

@@ -29,8 +29,9 @@ public class PanelBoard : MonoBehaviour
     [SerializeField]
     private GameObject[] playerHit;
     [SerializeField]
-    private GameObject puzzleSkill;
-
+    private GameObject[] puzzleSkill;
+    [SerializeField]
+    private BgmOn bgmOn;
 
     int mCellWidthCount;
     int mCellHeightCount;
@@ -52,7 +53,6 @@ public class PanelBoard : MonoBehaviour
     private void Start()
     {
         playerHit = GameObject.FindGameObjectsWithTag("PLAYER");
-        puzzleSkill = GameObject.Find("UICanvas/Puzzle");
 
         CreateBoard();
         PieceMix();
@@ -369,28 +369,34 @@ public class PanelBoard : MonoBehaviour
             for(int i =0; i < matchList.Count; ++i)
             {
                 //사라지는 퍼즐색상에 맞춰 같은 색상의 플레이어 게이지가 찬다.
+                //이펙트도 날라감
                 if(matchList[i].piece.pieceType.ToString() == "Blue")
                 {
+                    StartCoroutine(puzzleEffect1());
                     playerHit[0].GetComponent<PlayerHit>().guage += 11.4f;
                 }
                 else if(matchList[i].piece.pieceType.ToString() == "Green")
                 {
+                    StartCoroutine(puzzleEffect4());
                     playerHit[3].GetComponent<PlayerHit>().guage += 11.4f;
                 }
                 else if(matchList[i].piece.pieceType.ToString() == "Purple")
                 {
+                    StartCoroutine(puzzleEffect5());
                     playerHit[4].GetComponent<PlayerHit>().guage += 11.4f;
                 }
                 else if(matchList[i].piece.pieceType.ToString() == "Red")
                 {
+                    StartCoroutine(puzzleEffect3());
                     playerHit[2].GetComponent<PlayerHit>().guage += 11.4f;
                 }
                 else
                 {
+                    StartCoroutine(puzzleEffect2());
                     playerHit[1].GetComponent<PlayerHit>().guage += 11.4f;
                 }
-                //StartCoroutine(puzzleEffect());
 
+                bgmOn.Audio();
                 DestroyPiece(matchList[i]);
             }
         }
@@ -417,25 +423,30 @@ public class PanelBoard : MonoBehaviour
             //사라지는 퍼즐색상에 맞춰 같은 색상의 플레이어 게이지가 찬다.
             if (matchList[i].piece.pieceType.ToString() == "Blue")
             {
+                StartCoroutine(puzzleEffect1());
                 playerHit[0].GetComponent<PlayerHit>().guage += 11.4f;
             }
             else if (matchList[i].piece.pieceType.ToString() == "Green")
             {
+                StartCoroutine(puzzleEffect4());
                 playerHit[3].GetComponent<PlayerHit>().guage += 11.4f;
             }
             else if (matchList[i].piece.pieceType.ToString() == "Purple")
             {
+                StartCoroutine(puzzleEffect5());
                 playerHit[4].GetComponent<PlayerHit>().guage += 11.4f;
             }
             else if (matchList[i].piece.pieceType.ToString() == "Red")
             {
+                StartCoroutine(puzzleEffect3());
                 playerHit[2].GetComponent<PlayerHit>().guage += 11.4f;
             }
             else
             {
+                StartCoroutine(puzzleEffect2());
                 playerHit[1].GetComponent<PlayerHit>().guage += 11.4f;
             }
-
+            bgmOn.Audio();
             DestroyPiece(matchList[i]);
         }
     }
@@ -595,12 +606,49 @@ public class PanelBoard : MonoBehaviour
         node.piece = null;
     }
 
-    IEnumerator puzzleEffect()
+    IEnumerator puzzleEffect1()
     {
-        GameObject puzSkill = Instantiate(puzzleSkill, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject puzSkill = Instantiate(puzzleSkill[0], new Vector3(0, 0, 0), Quaternion.identity);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.8f);
 
         Destroy(puzSkill);
     }
+
+    IEnumerator puzzleEffect2()
+    {
+        GameObject puzSkill = Instantiate(puzzleSkill[1], new Vector3(0, 0, 0), Quaternion.identity);
+
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(puzSkill);
+    }
+
+    IEnumerator puzzleEffect3()
+    {
+        GameObject puzSkill = Instantiate(puzzleSkill[2], new Vector3(0, 0, 0), Quaternion.identity);
+
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(puzSkill);
+    }
+
+    IEnumerator puzzleEffect4()
+    {
+        GameObject puzSkill = Instantiate(puzzleSkill[3], new Vector3(0, 0, 0), Quaternion.identity);
+
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(puzSkill);
+    }
+
+    IEnumerator puzzleEffect5()
+    {
+        GameObject puzSkill = Instantiate(puzzleSkill[4], new Vector3(0, 0, 0), Quaternion.identity);
+
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(puzSkill);
+    }
+
 }

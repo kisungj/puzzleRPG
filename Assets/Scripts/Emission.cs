@@ -19,7 +19,7 @@ public class Emission : MonoBehaviour
             Color baseColor = new Color32(102, 32, 23, 255);
             //선형에서 감마 색상 공간으로 값을 변형합니다.
             Color finalColor = baseColor * Mathf.LinearToGammaSpace(emission);
-            // 칼라 입력                               //칼라 세기 조절?
+            // 칼라 입력                               //칼라 세기 조절
             mat.SetColor("_EmissionColor", finalColor * 3f);
 
             passTime += Time.deltaTime;

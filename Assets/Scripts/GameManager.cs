@@ -56,8 +56,22 @@ public class GameManager : MonoBehaviour
     //스테이지 클리어 후 main 씬으로 넘어가기
     public void StageClear()
     {
-        dataSave.Save(1);
-        SceneManager.LoadScene(1);
+        GameObject btnName = EventSystem.current.currentSelectedGameObject;
+        if(btnName.name == "Stage1Clear_Button")
+        {
+            dataSave.Save(1);
+            SceneManager.LoadScene(1);
+        }
+        else if(btnName.name == "Stage2Clear_Button")
+        {
+            dataSave.Save(2);
+            SceneManager.LoadScene(1);
+        }
+        else if(btnName.name == "Stage3Clear_Button")
+        {
+            dataSave.Save(3);
+            SceneManager.LoadScene(1);
+        }
     }
 
     //스테이지 다시하기

@@ -124,7 +124,10 @@ public class Player : MonoBehaviour
         playerHit[3].GetComponent<PlayerHit>().guage = 0;
         for(int i = 0; i < 5; i++)
         {
-            playerHit[i].GetComponent<PlayerHit>().healing(); 
+            if(playerHit[i].GetComponent<PlayerHit>().hp > 0)
+            {
+                playerHit[i].GetComponent<PlayerHit>().healing();
+            }
         }
 
         yield return new WaitForSeconds(2.0f);

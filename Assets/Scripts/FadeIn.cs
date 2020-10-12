@@ -43,7 +43,7 @@ public class FadeIn : MonoBehaviour
         {
             gManager.PreviousScene();
         }
-        else if(btnName.name == "Clear_Button")
+        else if(btnName.name == "Stage1Clear_Button" || btnName.name == "Stage2Clear_Button" || btnName.name == "Stage3Clear_Button")
         {
             gManager.StageClear();
         }

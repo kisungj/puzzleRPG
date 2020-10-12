@@ -72,7 +72,6 @@ public class BatAI : MonoBehaviour
 
         //emission 스크립트 호출
         emission = GameObject.Find("EnemyManager/Bat/Bat").GetComponent<Emission>();
-        Debug.Log(emission);
     }
 
     void Update()

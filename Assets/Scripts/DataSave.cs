@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class DataSave : MonoBehaviour
 {
-    public Image img;
+    public Image[] buttonImgColor;
+    public GameObject completeImg;
+    public Text completeText;
 
     int current = 0;
 
@@ -39,9 +41,19 @@ public class DataSave : MonoBehaviour
             current = PlayerPrefs.GetInt("Complete");
 
             //만약 조건이 맞으면 실행
-            if(current == 1)
+            if (current == 1)
             {
-                img.color = new Color32(255, 255, 255, 255);
+                buttonImgColor[0].color = new Color32(255, 255, 255, 255);
+            }
+            else if (current == 2)
+            {
+                buttonImgColor[1].color = new Color32(255, 255, 255, 255);
+            }
+            else if(current == 3)
+            {
+                buttonImgColor[2].color = new Color32(255, 255, 255, 255);
+                completeImg.SetActive(true);
+                completeText.text = "전투 재개";
             }
         }
     }

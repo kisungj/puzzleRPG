@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+public class Player2 : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] skill;
-    private GameObject enemy;
+    public GameObject enemy;
     private GameObject[] playerHit;
 
     private GameObject position;
@@ -16,9 +16,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //태그가 ENEMY인 오브젝트를 찾음
-        enemy = GameObject.FindGameObjectWithTag("ENEMY");
-
         //태그로 이름찾는건데 objects라 배열임
         playerHit = GameObject.FindGameObjectsWithTag("PLAYER");
     }
@@ -62,11 +59,11 @@ public class Player : MonoBehaviour
         //속성 공격으로 반대되는 속성이면 데미지 2배를 준다.
         if(attribute.currentimg == 0)
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt * 2);
         }
         else
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt);
         }
 
         //플레이어 스킬 사용 후 게이지 초기화
@@ -84,11 +81,11 @@ public class Player : MonoBehaviour
 
         if(attribute.currentimg == 4)
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt * 2);
         }
         else
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt);
         }
 
         playerHit[1].GetComponent<PlayerHit>().guage = 0;
@@ -105,11 +102,11 @@ public class Player : MonoBehaviour
 
         if (attribute.currentimg == 1)
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt * 2);
         }
         else
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt);
         }
 
         playerHit[2].GetComponent<PlayerHit>().guage = 0;
@@ -139,11 +136,11 @@ public class Player : MonoBehaviour
 
         if (attribute.currentimg == 3)
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt * 2);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt * 2);
         }
         else
         {
-            enemy.GetComponent<EnemyAI>().HitEnemy(playerAtt);
+            enemy.GetComponent<ChestAI>().HitEnemy(playerAtt);
         }
 
         playerHit[4].GetComponent<PlayerHit>().guage = 0;

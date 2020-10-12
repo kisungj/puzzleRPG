@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     public GameState gameState;
     public GameObject gameOption;
+    [SerializeField]
+    private DataSave dataSave;
 
     //설정 창 열기
     public void OpenOptionWindow()
@@ -53,7 +56,27 @@ public class GameManager : MonoBehaviour
     //스테이지 클리어 후 main 씬으로 넘어가기
     public void StageClear()
     {
+        dataSave.Save(1);
         SceneManager.LoadScene(1);
+    }
+
+    //스테이지 다시하기
+    public void StageReStart()
+    {
+        GameObject btnName = EventSystem.current.currentSelectedGameObject;
+
+        if (btnName.name == "Stage1ReStart_Button")
+        {
+            SceneManager.LoadScene(2);
+        }
+        else if (btnName.name == "Stage2ReStart_Button")
+        {
+            SceneManager.LoadScene(3);
+        }
+        else if (btnName.name == "Stage3ReStart_Button")
+        {
+            SceneManager.LoadScene(4);
+        }
     }
 
     //게임 시작하려면 시간 다시 가동

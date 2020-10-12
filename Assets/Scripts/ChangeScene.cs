@@ -45,11 +45,11 @@ public class ChangeScene : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         //버튼이름에 맞춰서 씬이동
-        if (btnName.name == "Stage1_Button")
+        if (btnName.name == "Entrance1_Button")
         {
             SceneManager.LoadScene(2);
         }
-        else if (btnName.name == "Stage2_Button")
+        else if (btnName.name == "Entrance2_Button")
         {
             SceneManager.LoadScene(3);
         }

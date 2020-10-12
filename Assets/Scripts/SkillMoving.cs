@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillMove : MonoBehaviour
+public class SkillMoving : MonoBehaviour
 {
     private Rigidbody2D rigibody;
 
     [SerializeField]
     private float speed;
+    [SerializeField]
     private Transform target;
 
     void Start()
     {
         rigibody = GetComponent<Rigidbody2D>();
-        //목표물 찾기
-        target = GameObject.Find("EnemyManager/Dragon").transform;
     }
 
     private void FixedUpdate()

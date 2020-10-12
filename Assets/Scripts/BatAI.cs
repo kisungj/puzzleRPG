@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyAI : MonoBehaviour
+public class BatAI : MonoBehaviour
 {
     enum EnemyState
     {
         IDLE,
-        SCREAM,
+        IDLEBATTLE,
         ATTACK,
         FULLATTACK,
         HIT,
@@ -16,11 +16,6 @@ public class EnemyAI : MonoBehaviour
     }
 
     EnemyState enemyState;
-
-    private float h = 0.0f;
-    private float v = 0.0f;
-    private Transform tr;
-    public float moveSpeed = 10.0f;
 
     public float hp = 0;
     public float maxHp = 700.0f;
@@ -75,14 +70,9 @@ public class EnemyAI : MonoBehaviour
 
         enemyAni = gameObject.GetComponent<Animator>();
 
-        //shake 스크립트를 호출
-        shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
-        tecamera = GameObject.Find("Main Camera").GetComponent<testCamera>();
-
         //emission 스크립트 호출
-        emission = GameObject.Find("EnemyManager/Dragon/Dragon").GetComponent<Emission>();
-
-        tr = GetComponent<Transform>();
+        emission = GameObject.Find("EnemyManager/Bat/Bat").GetComponent<Emission>();
+        Debug.Log(emission);
     }
 
     void Update()
@@ -101,14 +91,11 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.IDLE:
                 Idle();
                 break;
-            case EnemyState.SCREAM:
-                Scream();
+            case EnemyState.IDLEBATTLE:
+                IDLEBATTLE();
                 break;
             case EnemyState.ATTACK:
                 Attack();
-                break;
-            case EnemyState.FULLATTACK:
-                FullAttack();
                 break;
             case EnemyState.HIT:
                 //Hit();
@@ -122,33 +109,23 @@ public class EnemyAI : MonoBehaviour
     //아이들 상태
     void Idle()
     {
-        enemyState = EnemyState.SCREAM;
+        enemyState = EnemyState.IDLEBATTLE;
     }
 
-    //포효 상태
-    void Scream()
+    //아이들 전투 상태
+    void IDLEBATTLE()
     {
-        if(enemyState == EnemyState.FULLATTACK)
-        {
-            return;
-        }
         enemyState = EnemyState.ATTACK;
     }
 
     //공격 상태
     void Attack()
     {
-        //만약 전체 공격중이면 함수를 실행하지 않음
-        if (enemyState == EnemyState.FULLATTACK)
-        {
-            return;
-        }
-
         currentTime += Time.deltaTime;
         if (currentTime > attackDelay)
         {
             currentTime = 0;
-            enemyAni.SetTrigger("ScreamToAttack");
+            enemyAni.SetTrigger("IdleToAttack");
             //공격 할때마다 게이지 채우기
             guage += 20.0f;
             //랜덤값으로 플레이어 찾기
@@ -157,62 +134,7 @@ public class EnemyAI : MonoBehaviour
             int enemyAttack = Random.Range(20, 40);
             player[RanNum].GetComponent<PlayerHit>().hitDamage(enemyAttack);
         }
-
-        //만약 enemy 게이지가 다차게되면 전체 스킬 발동
-        if (guage >= maxGuage)
-        {
-            StartCoroutine(AttackProcess());
-        }
     }
-
-    IEnumerator AttackProcess()
-    {
-        //모션 기다리게 해주기
-        yield return new WaitForSeconds(0.77f);
-        enemyState = EnemyState.FULLATTACK;
-    }
-
-    //전체 공격
-    void FullAttack()
-    {
-        currentTime += Time.deltaTime;
-        if (currentTime > attackDelay)
-        {
-            currentTime = 0;
-            enemyAni.SetTrigger("IdleToFullAttack");
-            int skillDmg = Random.Range(50, 70);
-
-            for (int i = 0; i < 5; i++)
-            {
-                player[i].GetComponent<PlayerHit>().hitDamage(skillDmg);
-            }
-
-            StartCoroutine(BossSkillEft());
-            //쉐이크 효과 호출
-            StartCoroutine(shake.ShakeCamera());
-            //StartCoroutine(tecamera.MoveCamera());
-        }
-
-        //스킬 사용후 아이들 상태로
-        if (guage == 0)
-        {
-            enemyState = EnemyState.IDLE;
-        }
-    }
-
-    IEnumerator BossSkillEft()
-    {
-        //스킬 이펙트
-        GameObject skilleft = Instantiate(skill[0], transform.position + new Vector3(0, 7.0f, 0), Quaternion.identity);
-
-        //스킬 사용 후 게이지 초기화
-        guage = 0;
-
-        yield return new WaitForSeconds(2.0f);
-
-        Destroy(skilleft);
-    }
-
 
     //enemy 공격받고 있는 상태
     public void HitEnemy(int damage)
@@ -264,7 +186,7 @@ public class EnemyAI : MonoBehaviour
         //피격 모션 기다리게 해준다.
         yield return new WaitForSeconds(1.0f);
 
-        enemyState = EnemyState.SCREAM;
+        enemyState = EnemyState.IDLEBATTLE;
     }
 
     //죽음 상태

@@ -15,6 +15,9 @@ public class PlayerHit : MonoBehaviour
     public Slider hpSlider;
     public Slider guageSlider;
     public Button playerBtn;
+    //모든 플레이어 체력 상태 알기위해
+    [SerializeField]
+    private PlayerHp playerHp;
 
     //플레이어 피격용 이미지
     public GameObject hitimg;
@@ -194,6 +197,9 @@ public class PlayerHit : MonoBehaviour
         hitimg.SetActive(false);
         AttEimg.SetActive(false);
         playerBtn.interactable = false;
+        
+        //모든플레이어가 사망했을때는 failUI 띄워주려고
+        playerHp.PlayerAllHp();
 
         yield return null;
     }

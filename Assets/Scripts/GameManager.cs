@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public GameState gameState;
     public GameObject gameOption;
+    //데이터 저장
     [SerializeField]
     private DataSave dataSave;
 
